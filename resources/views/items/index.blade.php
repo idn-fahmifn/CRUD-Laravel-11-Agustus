@@ -88,10 +88,10 @@
                     </div>
                     <div class="mt-4">
                         <x-input-label for="kategori_barang" value="Category"></x-input-label>
-                        <x-select class="mt-2 block w-full" name="kategori_barang" id="kategori_barang" required >
+                        <x-select class="mt-2 block w-full" name="kategori_barang" id="kategori_barang" required>
                             <option value="" disabled>Choose Category</option>
                             @foreach ($category as $cat )
-                                <option value="{{$cat->id}}">{{$cat->category_name}}</option>
+                            <option value="{{$cat->id}}">{{$cat->category_name}}</option>
                             @endforeach
                         </x-select>
                         <x-input-error :messages="$errors->get('kategori_barang')" class="mt-2"></x-input-error>
@@ -105,18 +105,40 @@
                         <x-input-error :messages="$errors->get('merk')" class="mt-2"></x-input-error>
                     </div>
                     <div class="mt-4">
-                        <x-input-label for="status" value="Status Items"></x-input-label>
+                        @php
+                        $pilihan = [
+                        'good' => 'good',
+                        'broke' => 'broke',
+                        'maintenance' => 'maintenance',
+                        ]
+                        @endphp
+                        <x-input-label for="" value="Status Items"></x-input-label>
 
+                        @foreach ($pilihan as $kondisi => $label)
                         <div class="flex justify-between">
-                            <label for="" class="mt-2">
-                                <input type="radio" name="status" id="status" value="">
-                                <span class="ms-2 text-sm text-slate-800 dark:text-slate-200">kondisi</span>
+                            <label for="{{ $label }}" class="mt-2">
+                                <input type="radio" name="status" id="{{ $label }}" value="{{$kondisi}}"
+                                    @checked(old('status'))>
+                                <span class="ms-2 text-sm text-slate-800 dark:text-slate-200">{{$label}}</span>
                             </label>
                         </div>
-                        
-                        
+                        @endforeach
                         <x-input-error :messages="$errors->get('status')" class="mt-2"></x-input-error>
                     </div>
+                </div>
+
+                <div class="mt-4">
+                    <x-input-label for="gambar_barang" value="Image Item"></x-input-label>
+                    <x-text-input type="file" name="gambar_barang" id="gambar_barang" required
+                    class="mt-2 py-6 px-2 border block w-full" accept="image/*" :value="old('gambar_barang')"></x-text-input>
+                    <x-input-error :messages="$errors->get('gambar_barang')" class="mt-2"></x-input-error>
+                </div>
+
+                 <div class="mt-4">
+                    <x-input-label for="deskripsi" value="Description"></x-input-label>
+                    <x-text-input type="file" name="deskripsi" id="deskripsi" required
+                    class="mt-2 py-6 px-2 border block w-full" accept="image/*" :value="old('deskripsi')"></x-text-input>
+                    <x-input-error :messages="$errors->get('deskripsi')" class="mt-2"></x-input-error>
                 </div>
 
                 <div class="mt-4">
