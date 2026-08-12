@@ -97,6 +97,27 @@
                         <x-input-error :messages="$errors->get('kategori_barang')" class="mt-2"></x-input-error>
                     </div>
                 </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div class="mt-4">
+                        <x-input-label for="merk" value="Brand"></x-input-label>
+                        <x-text-input type="text" name="merk" id="merk" required class="mt-2 block w-full"
+                            :value="old('merk')"></x-text-input>
+                        <x-input-error :messages="$errors->get('merk')" class="mt-2"></x-input-error>
+                    </div>
+                    <div class="mt-4">
+                        <x-input-label for="status" value="Status Items"></x-input-label>
+
+                        <div class="flex justify-between">
+                            <label for="" class="mt-2">
+                                <input type="radio" name="status" id="status" value="">
+                                <span class="ms-2 text-sm text-slate-800 dark:text-slate-200">kondisi</span>
+                            </label>
+                        </div>
+                        
+                        
+                        <x-input-error :messages="$errors->get('status')" class="mt-2"></x-input-error>
+                    </div>
+                </div>
 
                 <div class="mt-4">
                     <div class="flex justify-end gap-2">
