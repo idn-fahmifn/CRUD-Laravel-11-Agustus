@@ -16,6 +16,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Category
     Route::get('/categories', [CategoryController::class, 'index'])->name('category.index');
+    Route::post('/categories', [CategoryController::class, 'store'])->name('category.store');
+    Route::get('/categories/{param}', [CategoryController::class, 'detail'])->name('category.detail');
+    Route::put('/categories/{param}', [CategoryController::class, 'update'])->name('category.update');
+    Route::delete('/categories/{param}', [CategoryController::class, 'delete'])->name('category.delete');
 
 
 });
