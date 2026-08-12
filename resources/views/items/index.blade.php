@@ -90,7 +90,7 @@
                         <x-select class="mt-2 block w-full" name="kategori_barang" id="kategori_barang" required>
                             <option value="" disabled>Choose Category</option>
                             @foreach ($category as $cat )
-                            <option value="{{$cat->id}}">{{$cat->category_name}}</option>
+                            <option value="{{$cat->id}}" @selected(old('kategori_barang') == $cat->id)>{{$cat->category_name}}</option>
                             @endforeach
                         </x-select>
                         <x-input-error :messages="$errors->get('kategori_barang')" class="mt-2"></x-input-error>
@@ -117,7 +117,7 @@
                         <div class="flex justify-between">
                             <label for="{{ $label }}" class="mt-2">
                                 <input type="radio" name="status" id="{{ $label }}" value="{{$kondisi}}"
-                                    @checked(old('status'))>
+                                    @checked(old('status') == $kondisi)>
                                 <span class="ms-2 text-sm text-slate-800 dark:text-slate-200">{{$label}}</span>
                             </label>
                         </div>
@@ -135,7 +135,7 @@
 
                  <div class="mt-4">
                     <x-input-label for="deskripsi" value="Description"></x-input-label>
-                    <textarea name="deskripsi" id="deskripsi" class="mt-2 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"></textarea>
+                    <textarea name="deskripsi" id="deskripsi" class="mt-2 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">{{old('deskripsi')}}</textarea>
                     <x-input-error :messages="$errors->get('deskripsi')" class="mt-2"></x-input-error>
                 </div>
 
