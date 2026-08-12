@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 use App\Models\{Category, Item};
 
@@ -31,7 +32,17 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama_barang' => ['string', 'required', 'min:5', 'max:20'],
+            'merk' => ['string', 'required', 'min:5', 'max:20'],
+            'kategori_barang' => ['integer', 'required', Rule::exists('categories', 'id')],
+            'status' => ['required', 'in:good,broke,maintenance'],
+            'gambar_barang' => ['required', 'image', 'mimes:png,jpg,jpeg,svg', 'max:2048'],
+            'deskripsi' => ['required', 'max:1000']
+        ]);
+
+        dd($request);
+
     }
 
     /**

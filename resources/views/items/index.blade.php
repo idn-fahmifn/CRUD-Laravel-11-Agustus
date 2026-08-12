@@ -76,9 +76,8 @@
     <x-modal name="create-new" :show="false" focusable>
         <div class="p-8">
             <h2 class="text-2xl text-slate-700 dark:text-slate-200">Add New Item</h2>
-            <form action="{{route('category.store')}}" method="post">
+            <form action="{{route('items.store')}}" method="post" enctype="multipart/form-data">
                 @csrf
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div class="mt-4">
                         <x-input-label for="nama_barang" value="Item Name"></x-input-label>
