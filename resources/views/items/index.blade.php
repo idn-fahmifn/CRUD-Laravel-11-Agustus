@@ -136,8 +136,7 @@
 
                  <div class="mt-4">
                     <x-input-label for="deskripsi" value="Description"></x-input-label>
-                    <x-text-input type="file" name="deskripsi" id="deskripsi" required
-                    class="mt-2 py-6 px-2 border block w-full" accept="image/*" :value="old('deskripsi')"></x-text-input>
+                    <textarea name="deskripsi" id="deskripsi" class="mt-2 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"></textarea>
                     <x-input-error :messages="$errors->get('deskripsi')" class="mt-2"></x-input-error>
                 </div>
 
