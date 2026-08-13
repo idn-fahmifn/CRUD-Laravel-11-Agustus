@@ -87,7 +87,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -96,13 +95,13 @@
                 <div class="p-8">
                     <h2 class="text-2xl text-slate-700 dark:text-slate-200">Change Category</h2>
 
-                    <form action="{{ route('items.store') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('items.update', $item->uuid) }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                             <div class="mt-4">
                                 <x-input-label for="nama_barang" value="Item Name"></x-input-label>
                                 <x-text-input type="text" name="nama_barang" id="nama_barang" required
-                                    class="mt-2 block w-full" :value="old('nama_barang')"></x-text-input>
+                                    class="mt-2 block w-full" :value="old('nama_barang', $item->item_name)"></x-text-input>
                                 <x-input-error :messages="$errors->get('nama_barang')" class="mt-2"></x-input-error>
                             </div>
                             <div class="mt-4">
@@ -110,7 +109,7 @@
                                 <x-select class="mt-2 block w-full" name="kategori_barang" id="kategori_barang" required>
                                     <option value="" disabled>Choose Category</option>
                                     @foreach ($category as $cat)
-                                        <option value="{{ $cat->id }}" @selected(old('kategori_barang') == $cat->id)>
+                                        <option value="{{ $cat->id }}" @selected(old('kategori_barang', $item->category_id) == $cat->id)>
                                             {{ $cat->category_name }}
                                         </option>
                                     @endforeach
@@ -123,7 +122,7 @@
                             <div class="mt-4">
                                 <x-input-label for="merk" value="Brand"></x-input-label>
                                 <x-text-input type="text" name="merk" id="merk" required class="mt-2 block w-full"
-                                    :value="old('merk')"></x-text-input>
+                                    :value="old('merk', $item->brand)"></x-text-input>
                                 <x-input-error :messages="$errors->get('merk')" class="mt-2"></x-input-error>
                             </div>
                             <div class="mt-4">
@@ -140,7 +139,7 @@
                                     <div class="flex justify-between">
                                         <label for="{{ $label }}" class="mt-2">
                                             <input type="radio" name="status" id="{{ $label }}" value="{{ $kondisi }}"
-                                                @checked(old('status') == $kondisi)>
+                                                @checked(old('status', $item->status) == $kondisi)>
                                             <span class="ms-2 text-sm text-slate-800 dark:text-slate-200">{{ $label }}</span>
                                         </label>
                                     </div>
@@ -151,7 +150,7 @@
 
                         <div class="mt-4">
                             <x-input-label for="gambar_barang" value="Image Item"></x-input-label>
-                            <x-text-input type="file" name="gambar_barang" id="gambar_barang" required
+                            <x-text-input type="file" name="gambar_barang" id="gambar_barang"
                                 class="mt-2 py-6 px-2 border block w-full" accept="image/*"
                                 :value="old('gambar_barang')"></x-text-input>
                             <x-input-error :messages="$errors->get('gambar_barang')" class="mt-2"></x-input-error>
@@ -160,7 +159,7 @@
                         <div class="mt-4">
                             <x-input-label for="deskripsi" value="Description"></x-input-label>
                             <textarea name="deskripsi" id="deskripsi"
-                                class="mt-2 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">{{ old('deskripsi') }}</textarea>
+                                class="mt-2 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">{{ old('deskripsi', $item->desc) }}</textarea>
                             <x-input-error :messages="$errors->get('deskripsi')" class="mt-2"></x-input-error>
                         </div>
 
