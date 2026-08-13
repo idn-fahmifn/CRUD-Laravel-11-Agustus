@@ -55,7 +55,7 @@
 
                                 <tr class="border-b border-slate-500">
                                     <td class="px-8 py-4">{{ $item->item_name }}</td>
-                                    <td class="px-8 py-4">{{$item->brand}} items</td>
+                                    <td class="px-8 py-4">{{$item->brand}}</td>
                                     <td class="px-8 py-4">
                                         <a href="{{route('items.show', $item->uuid)}}" class="">detail</a>
                                     </td>

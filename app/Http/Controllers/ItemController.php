@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 use App\Models\{Category, Item};
 
@@ -16,8 +18,10 @@ class ItemController extends Controller
     {
         $items = Item::all();
         $category = Category::all();
-        return view('items.index',compact('items', 'category'));
+
+        return view('items.index', compact('items', 'category'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -38,19 +42,43 @@ class ItemController extends Controller
             'kategori_barang' => ['integer', 'required', Rule::exists('categories', 'id')],
             'status' => ['required', 'in:good,broke,maintenance'],
             'gambar_barang' => ['required', 'image', 'mimes:png,jpg,jpeg,svg', 'max:2048'],
-            'deskripsi' => ['required', 'max:1000']
+            'deskripsi' => ['required', 'max:1000'],
         ]);
 
-        dd($request);
+        $simpan = [
+            'uuid' => Str::uuid(),
+            'item_name' => $request->nama_barang,
+            'brand' => $request->merk,
+            'status' => $request->status,
+            'desc' => $request->deskripsi,
+            'category_id' => $request->kategori_barang,
+        ];
 
+        if ($request->hasFile('gambar_barang')) {
+            $gambar = $request->file('gambar_barang');
+            $path = 'images/items';
+
+            $format = $gambar->getClientOriginalExtension();
+            $nama = 'inventaris_image_' . Carbon::now('Asia/jakarta')
+            ->format('Ymdhis') . uniqid() . '.' . $format; 
+            //inventaris_image_2026081309341712345.png
+
+            $simpan['image'] = $nama;
+            $gambar->storeAs($path, $nama, 'public');
+        }
+
+        Item::create($simpan);
+        return back()->with('message', 'Item created');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($uuid)
     {
-        //
+        $item = Item::where('uuid', $uuid)->firstOrFail();
+        $categories = Category::all();
+        return view('items.detail', compact('item', 'categories'));
     }
 
     /**
