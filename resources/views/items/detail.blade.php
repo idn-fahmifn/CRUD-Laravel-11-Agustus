@@ -50,166 +50,164 @@
                     @endif
 
                     <!-- area table -->
-                     <div class="bg-white dark:bg-slate-900 rounded-[2rem] overflow-hidden border border-slate-100 dark:border-slate-800">
+                    <div
+                        class="bg-white dark:bg-slate-900 rounded-[2rem] overflow-hidden border border-slate-100 dark:border-slate-800">
 
-                <div class="p-10">
+                        <div class="p-10">
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-
-                        <div>
-
-                            <img
-                                src="https://placehold.co/600x500"
-                                class="rounded-3xl w-full object-cover"
-                                alt="Barang">
-
-                        </div>
-
-                        <div>
-
-                            <h2 class="text-3xl font-black text-slate-800 dark:text-white">
-                                Laptop Asus ROG
-                            </h2>
-
-                            <p class="text-slate-400 mt-2">
-                                Digunakan untuk kebutuhan operasional divisi IT
-                            </p>
-
-                            <div class="mt-8 space-y-5">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
 
                                 <div>
 
-                                    <p class="text-sm text-slate-400">
-                                        UUID
-                                    </p>
-
-                                    <h3 class="font-black text-slate-700 dark:text-white">
-                                        ITM-001
-                                    </h3>
+                                    <img src="{{asset('storage/images/items/'.$item->image)}}" class="rounded-3xl w-full object-cover"
+                                        alt="Barang">
 
                                 </div>
 
                                 <div>
 
-                                    <p class="text-sm text-slate-400">
-                                        Lokasi
+                                    <h2 class="text-3xl font-black text-slate-800 dark:text-white">
+                                        {{ $item->item_name }}
+                                    </h2>
+
+                                    <p class="text-slate-400 mt-2">
+                                        {{ $item->desc }}
                                     </p>
 
-                                    <h3 class="font-black text-slate-700 dark:text-white">
-                                        Gudang Utama
-                                    </h3>
+                                    <div class="mt-8 space-y-5">
 
-                                </div>
 
-                                <div>
+                                        <div>
 
-                                    <p class="text-sm text-slate-400">
-                                        Tanggal Pembelian
-                                    </p>
+                                            <p class="text-sm text-slate-400">
+                                                Category
+                                            </p>
 
-                                    <h3 class="font-black text-slate-700 dark:text-white">
-                                        13 Mei 2026
-                                    </h3>
+                                            <h3 class="font-black text-slate-700 dark:text-white">
+                                                {{ $item->category->category_name }}
+                                            </h3>
 
-                                </div>
+                                        </div>
 
-                                <div>
+                                        <div>
 
-                                    <p class="text-sm text-slate-400">
-                                        Status
-                                    </p>
+                                            <p class="text-sm text-slate-400">
+                                                Brand
+                                            </p>
 
-                                    <h3 class="font-black text-emerald-500">
-                                        GOOD
-                                    </h3>
+                                            <h3 class="font-black text-slate-700 dark:text-white">
+                                                {{ $item->brand }}
+                                            </h3>
+
+                                        </div>
+
+                                        <div>
+
+                                            <p class="text-sm text-slate-400">
+                                                Status
+                                            </p>
+                                            
+
+                                            <h3 class="font-black {{$item->status === 'good' ? 'text-emerald-500' : ($item->status === 'broke' ? 'text-rose-500' : 'text-yellow-500') }} ">
+                                                {{$item->status === 'good' ? 'good condition' : ($item->status === 'broke' ? 'item broke' : 'under maintenance') }}
+                                            </h3>
+
+                                        </div>
+
+                                    </div>
 
                                 </div>
 
                             </div>
 
+
                         </div>
-
                     </div>
+                    <x-modal name="create-new" :show="false" focusable>
+                        <div class="p-8">
+                            <h2 class="text-2xl text-slate-700 dark:text-slate-200">Change Category</h2>
+
+                            <form action="{{route('items.store')}}" method="post" enctype="multipart/form-data">
+                                @csrf
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                    <div class="mt-4">
+                                        <x-input-label for="nama_barang" value="Item Name"></x-input-label>
+                                        <x-text-input type="text" name="nama_barang" id="nama_barang" required
+                                            class="mt-2 block w-full" :value="old('nama_barang')"></x-text-input>
+                                        <x-input-error :messages="$errors->get('nama_barang')" class="mt-2">
+                                        </x-input-error>
+                                    </div>
+                                    <div class="mt-4">
+                                        <x-input-label for="kategori_barang" value="Category"></x-input-label>
+                                        <x-select class="mt-2 block w-full" name="kategori_barang" id="kategori_barang"
+                                            required>
+                                            <option value="" disabled>Choose Category</option>
+                                            @foreach ($category as $cat )
+                                            <option value="{{$cat->id}}" @selected(old('kategori_barang')==$cat->
+                                                id)>{{$cat->category_name}}</option>
+                                            @endforeach
+                                        </x-select>
+                                        <x-input-error :messages="$errors->get('kategori_barang')" class="mt-2">
+                                        </x-input-error>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                    <div class="mt-4">
+                                        <x-input-label for="merk" value="Brand"></x-input-label>
+                                        <x-text-input type="text" name="merk" id="merk" required
+                                            class="mt-2 block w-full" :value="old('merk')"></x-text-input>
+                                        <x-input-error :messages="$errors->get('merk')" class="mt-2"></x-input-error>
+                                    </div>
+                                    <div class="mt-4">
+                                        @php
+                                        $pilihan = [
+                                        'good' => 'good',
+                                        'broke' => 'broke',
+                                        'maintenance' => 'maintenance',
+                                        ]
+                                        @endphp
+                                        <x-input-label for="" value="Status Items"></x-input-label>
+
+                                        @foreach ($pilihan as $kondisi => $label)
+                                        <div class="flex justify-between">
+                                            <label for="{{ $label }}" class="mt-2">
+                                                <input type="radio" name="status" id="{{ $label }}" value="{{$kondisi}}"
+                                                    @checked(old('status')==$kondisi)>
+                                                <span
+                                                    class="ms-2 text-sm text-slate-800 dark:text-slate-200">{{$label}}</span>
+                                            </label>
+                                        </div>
+                                        @endforeach
+                                        <x-input-error :messages="$errors->get('status')" class="mt-2"></x-input-error>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4">
+                                    <x-input-label for="gambar_barang" value="Image Item"></x-input-label>
+                                    <x-text-input type="file" name="gambar_barang" id="gambar_barang" required
+                                        class="mt-2 py-6 px-2 border block w-full" accept="image/*"
+                                        :value="old('gambar_barang')"></x-text-input>
+                                    <x-input-error :messages="$errors->get('gambar_barang')" class="mt-2">
+                                    </x-input-error>
+                                </div>
+
+                                <div class="mt-4">
+                                    <x-input-label for="deskripsi" value="Description"></x-input-label>
+                                    <textarea name="deskripsi" id="deskripsi"
+                                        class="mt-2 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">{{old('deskripsi')}}</textarea>
+                                    <x-input-error :messages="$errors->get('deskripsi')" class="mt-2"></x-input-error>
+                                </div>
+
+                                <div class="mt-4">
+                                    <div class="flex justify-end gap-2">
+                                        <x-danger-button type="button" x-on:click="$dispatch('close')">close
+                                        </x-danger-button>
+                                        <x-primary-button type="submit" class="">save</x-primary-button>
+                                    </div>
+                                </div>
+                            </form>
 
 
-                </div>
-            </div>
-            <x-modal name="create-new" :show="false" focusable>
-                <div class="p-8">
-                    <h2 class="text-2xl text-slate-700 dark:text-slate-200">Change Category</h2>
-
-                    <form action="{{route('items.store')}}" method="post" enctype="multipart/form-data">
-                @csrf
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                    <div class="mt-4">
-                        <x-input-label for="nama_barang" value="Item Name"></x-input-label>
-                        <x-text-input type="text" name="nama_barang" id="nama_barang" required class="mt-2 block w-full"
-                            :value="old('nama_barang')"></x-text-input>
-                        <x-input-error :messages="$errors->get('nama_barang')" class="mt-2"></x-input-error>
-                    </div>
-                    <div class="mt-4">
-                        <x-input-label for="kategori_barang" value="Category"></x-input-label>
-                        <x-select class="mt-2 block w-full" name="kategori_barang" id="kategori_barang" required>
-                            <option value="" disabled>Choose Category</option>
-                            @foreach ($category as $cat )
-                            <option value="{{$cat->id}}" @selected(old('kategori_barang') == $cat->id)>{{$cat->category_name}}</option>
-                            @endforeach
-                        </x-select>
-                        <x-input-error :messages="$errors->get('kategori_barang')" class="mt-2"></x-input-error>
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                    <div class="mt-4">
-                        <x-input-label for="merk" value="Brand"></x-input-label>
-                        <x-text-input type="text" name="merk" id="merk" required class="mt-2 block w-full"
-                            :value="old('merk')"></x-text-input>
-                        <x-input-error :messages="$errors->get('merk')" class="mt-2"></x-input-error>
-                    </div>
-                    <div class="mt-4">
-                        @php
-                        $pilihan = [
-                        'good' => 'good',
-                        'broke' => 'broke',
-                        'maintenance' => 'maintenance',
-                        ]
-                        @endphp
-                        <x-input-label for="" value="Status Items"></x-input-label>
-
-                        @foreach ($pilihan as $kondisi => $label)
-                        <div class="flex justify-between">
-                            <label for="{{ $label }}" class="mt-2">
-                                <input type="radio" name="status" id="{{ $label }}" value="{{$kondisi}}"
-                                    @checked(old('status') == $kondisi)>
-                                <span class="ms-2 text-sm text-slate-800 dark:text-slate-200">{{$label}}</span>
-                            </label>
                         </div>
-                        @endforeach
-                        <x-input-error :messages="$errors->get('status')" class="mt-2"></x-input-error>
-                    </div>
-                </div>
-
-                <div class="mt-4">
-                    <x-input-label for="gambar_barang" value="Image Item"></x-input-label>
-                    <x-text-input type="file" name="gambar_barang" id="gambar_barang" required
-                    class="mt-2 py-6 px-2 border block w-full" accept="image/*" :value="old('gambar_barang')"></x-text-input>
-                    <x-input-error :messages="$errors->get('gambar_barang')" class="mt-2"></x-input-error>
-                </div>
-
-                 <div class="mt-4">
-                    <x-input-label for="deskripsi" value="Description"></x-input-label>
-                    <textarea name="deskripsi" id="deskripsi" class="mt-2 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">{{old('deskripsi')}}</textarea>
-                    <x-input-error :messages="$errors->get('deskripsi')" class="mt-2"></x-input-error>
-                </div>
-
-                <div class="mt-4">
-                    <div class="flex justify-end gap-2">
-                        <x-danger-button type="button" x-on:click="$dispatch('close')">close</x-danger-button>
-                        <x-primary-button type="submit" class="">save</x-primary-button>
-                    </div>
-                </div>
-            </form>
-                    
-
-                </div>
-            </x-modal>
+                    </x-modal>
 </x-app-layout>

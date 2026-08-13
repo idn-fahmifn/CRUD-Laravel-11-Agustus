@@ -77,8 +77,8 @@ class ItemController extends Controller
     public function show($uuid)
     {
         $item = Item::where('uuid', $uuid)->firstOrFail();
-        $categories = Category::all();
-        return view('items.detail', compact('item', 'categories'));
+        $category = Category::all();
+        return view('items.detail', compact('item', 'category'));
     }
 
     /**
